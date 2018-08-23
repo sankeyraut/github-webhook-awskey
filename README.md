@@ -44,7 +44,7 @@ Custom logic/hook to invove any 3rd party API is also provided
                     ▼                      ▼
          ┌────────────────────┐    ┌--------------┐
          │                    │ .  |              |
-         │      SNS           │ .  | Customer Fn  |
+         │      SNS           │ .  | Custom   Fn  |
          │                    │ .  |              |
          └────────────────────┘ .  └--------------┘
 ```
