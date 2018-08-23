@@ -3,17 +3,11 @@ title: AWS Serverless Github Webhook Listener example in NodeJS
 description: This service will listen to github webhooks fired by a given repository.
 layout: Doc
 -->
-# Serverless Github webhook listener
+# Serverless Github webhook listener for detecting AWS API key
 
-This service will listen to github webhooks fired by a given repository.
+This service will listen to github webhooks fired by a given repository. Will compare the commits of public repository with regular expression of an AWS API key and notify user using SNS
 
-## Use Cases
-
-* Custom github notifications
-* Automatically tagging github issues
-* Pinging slack on new Pull requests
-* Welcoming new stargazers
-* Find security issues for API keys and secret
+Custom logic/hook to invove any 3rd party API is also provided
 
 
 ## How it works
@@ -45,13 +39,14 @@ This service will listen to github webhooks fired by a given repository.
          │ └────────────────┘  │
          └─────────────────────┘
                     │
-                    │
-                    ▼
-         ┌────────────────────┐
-         │                    │
-         │      Do stuff      │
-         │                    │
-         └────────────────────┘
+                    │----------------------
+                    |                      |
+                    ▼                      ▼
+         ┌────────────────────┐    ┌--------------┐
+         │                    │ .  |              |
+         │      SNS           │ .  | Custom   Fn  |
+         │                    │ .  |              |
+         └────────────────────┘ .  └--------------┘
 ```
 
 ## Setup
@@ -106,6 +101,7 @@ This service will listen to github webhooks fired by a given repository.
 
   You should see the event from github in the lambda functions logs.
 
-5. Use your imagination and do whatever you want with your new github webhook listener! 🎉
+5. Ensure you add Email/SMS/Paging(HTTPs) consumer for SNS topic AWS_KEYS_Notify
 
-Let us know if you come up with a cool use case for this service =)
+6. Sleep peacefully and get alerted when developers commit keys in public repository
+
