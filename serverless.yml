@@ -4,7 +4,27 @@ provider:
   name: aws
   runtime: nodejs4.3
   environment:
-    GITHUB_WEBHOOK_SECRET: xxxxxxx
+    GITHUB_WEBHOOK_SECRET: xxxxxxxxxxxxxxxxxxxx
+    SNS_TOPIC: ${self:custom.AWSKEYSNotify}
+
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - "sns:Publish"
+      Resource:
+        - ${self:custom.AWSKEYSNotify}
+
+
+custom:
+  AWSKEYSNotify:
+    Fn::Join:
+      - ":"
+      - - arn
+        - aws
+        - sns
+        - Ref: AWS::Region
+        - Ref: AWS::AccountId
+        - AWS_KEYS_Notify
 
 functions:
   githubWebhookListener:
@@ -14,3 +34,15 @@ functions:
           path: webhook
           method: post
           cors: true
+
+  githubWebhookCustomAction:
+    handler: handler.customAction
+    events:
+      - sns:
+          topicName: AWS_KEYS_Notify
+          displayName: Topic to process events
+
+    
+
+
+

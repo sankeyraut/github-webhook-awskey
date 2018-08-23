@@ -1,0 +1,7 @@
+
+serverless.yml
+.serverless/serverless-state.json
+.serverless/github-webhook-listener.zip
+.serverless/cloudformation-template-update-stack.json
+.serverless/cloudformation-template-create-stack.json
+serverless.yml
